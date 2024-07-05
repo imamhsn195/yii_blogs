@@ -1,6 +1,6 @@
 <?php
 class UserController extends Controller {
-  public function actionSignup() {
+  public function actionRegister() {
     $model = new User;
     $this->layout = 'web_main';
     if (isset($_POST['User'])) {

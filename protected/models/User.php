@@ -9,6 +9,8 @@ class User extends CActiveRecord {
         array('email', 'unique', 'message' => "This email address is already registered."),
         array('password', 'compare'),
         array('password_repeat', 'safe'),
+        array('token', 'length', 'max'=>255),
+        array('email_verified', 'boolean'),
       );
     }
   
@@ -23,8 +25,18 @@ class User extends CActiveRecord {
       }
     }
   
+    public static function findByToken($token) {
+      return self::model()->findByAttributes(array('token' => $token));
+    }
+    
     public static function model($className=__CLASS__) {
       return parent::model($className);
+    }
+
+    public function relations() {
+      return array(
+          'posts' => array(self::HAS_MANY, 'Post', 'author_id'),
+      );
     }
     
   }

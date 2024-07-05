@@ -22,6 +22,7 @@
                     <li class="nav-item"><a class="nav-link" href="<?= Yii::app()->createUrl('/posts/index')?>">All Posts</a></li>
                     <?php if (Yii::app()->user->isGuest) : ?>
                         <li class="nav-item"><a class="nav-link" href="<?= Yii::app()->createUrl('/site/login')?>">Log In</a></li>
+                        <li class="nav-item"><a class="nav-link" href="<?= Yii::app()->createUrl('/site/signup')?>">SignUp</a></li>
                     <?php else : ?>
                         <li class="nav-item"><a class="nav-link" href="<?= Yii::app()->createUrl('/posts/create')?>">Add Post</a></li>
                         <li class="nav-item"><a class="nav-link" href="<?= Yii::app()->createUrl('/site/logout')?>">Logout <?='('.Yii::app()->user->name.')'?></a></li>

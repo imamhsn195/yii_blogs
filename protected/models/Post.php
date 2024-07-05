@@ -13,7 +13,7 @@ class Post extends CActiveRecord {
 
       public function relations() {
         return array(
-            'user' => array(self::BELONGS_TO, 'User', 'user_id'),
+            'author' => array(self::BELONGS_TO, 'User', 'author_id'),
         );
     }
 }

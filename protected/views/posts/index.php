@@ -9,7 +9,7 @@
             <!-- Post title-->
             <h1 class="fw-bolder mb-1"><?=$post->title ?? "Post" ?></h1>
             <!-- Post meta content-->
-            <div class="text-muted fst-italic mb-2">Posted on <?=date_format(new DateTime($post->created_at), 'F j, Y') ?> by <?= $post->user_id ?? "User"?></div>
+            <div class="text-muted fst-italic mb-2">Posted on <?=date_format(new DateTime($post->created_at), 'F j, Y') ?> by <?= $post->author->username ?? "User"?></div>
             <!-- Post categories-->
             <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
             <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
@@ -34,4 +34,7 @@
     </article>
   </li>
   <?php endforeach; ?>
+     <?php if(!$posts): ?>
+        <li class="list-group-item">No Post found!</li>
+    <?php endif; ?>
 </ul>

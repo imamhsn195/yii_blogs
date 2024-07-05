@@ -29,6 +29,7 @@ class SiteController extends Controller
 	{
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
+		$this->layout = 'web_main';
 		$this->render('index');
 	}
 
@@ -51,6 +52,7 @@ class SiteController extends Controller
 	 */
 	public function actionContact()
 	{
+		$this->layout = 'web_main';
 		$model=new ContactForm;
 		if(isset($_POST['ContactForm']))
 		{
@@ -72,11 +74,48 @@ class SiteController extends Controller
 		$this->render('contact',array('model'=>$model));
 	}
 
+	public function actionSignup() {
+		$user = new User;
+		$this->layout = 'web_main';
+		if (isset($_POST['User'])) {
+		  $user->attributes = $_POST['User'];
+		  $user->token = md5(uniqid(rand(), true));
+		  $user->status = 1;
+	
+		  if ($user->save()) {
+			$this->sendVerificationEmail($user);
+			Yii::app()->user->setFlash('success', 'Thank you for registering. Please check your email to verify your account.');
+			$this->redirect(array('login'));
+		  }
+		}
+		$this->render('signup', array('model' => $user));
+	  }
+
+	public function sendVerificationEmail($user) {
+        $verificationUrl = $this->createAbsoluteUrl('user/verifyEmail', array('token' => $user->token));
+        $message = "Please click the following link to verify your email address: $verificationUrl";
+        mail($user->email, 'Email Verification', $message);
+	}
+
+	public function actionVerifyEmail($token) {
+        $user = User::findByToken($token);
+        if ($user !== null) {
+            $user->email_verified = 1;
+            $user->token = null;
+            $user->save(false);
+            Yii::app()->user->setFlash('success', 'Your email has been successfully verified.');
+            $this->redirect(array('/site/login'));
+        } else {
+            Yii::app()->user->setFlash('error', 'Invalid verification token.');
+            $this->redirect(array('/posts/index'));
+        }
+    }
 	/**
 	 * Displays the login page
 	 */
 	public function actionLogin()
 	{
+		$this->layout = 'web_main';
 		$model=new LoginForm;
 
 		// if it is ajax validation request
@@ -106,4 +145,6 @@ class SiteController extends Controller
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);
 	}
+
+
 }
