@@ -1,6 +1,6 @@
 <ul class="list-group">
     <li class="list-group-item">
-        <h1>Add Post</h1>
+        <h1>Update Post</h1>
         <div class="form">
 
                 <?php $form = $this->beginWidget('CActiveForm', array(
@@ -31,7 +31,7 @@
                 </div>
 
                 <div class="row buttons">
-                    <?php echo CHtml::submitButton('Add Post', array('class' => 'btn btn-success mt-3')); ?>
+                    <?php echo CHtml::submitButton('Update Post', array('class' => 'btn btn-success mt-3')); ?>
                 </div>
 
             <?php $this->endWidget(); ?>
