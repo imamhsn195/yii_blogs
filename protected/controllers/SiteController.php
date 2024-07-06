@@ -83,19 +83,41 @@ class SiteController extends Controller
 		  $user->status = 1;
 	
 		  if ($user->save()) {
-			$this->sendVerificationEmail($user);
+			// $this->sendVerificationEmail($user);
 			Yii::app()->user->setFlash('success', 'Thank you for registering. Please check your email to verify your account.');
 			$this->redirect(array('login'));
 		  }
 		}
 		$this->render('signup', array('model' => $user));
 	  }
+	  public function sendVerificationEmail($user) {
 
-	public function sendVerificationEmail($user) {
-        $verificationUrl = $this->createAbsoluteUrl('user/verifyEmail', array('token' => $user->token));
-        $message = "Please click the following link to verify your email address: $verificationUrl";
-        mail($user->email, 'Email Verification', $message);
+		$verificationUrl = $this->createAbsoluteUrl('user/verifyEmail', array('token' => $user->token));
+
+		Yii::import('application.extensions.swiftMailer.SwiftMailer');
+
+		$mailer = Yii::app()->mailer;
+	
+		$transport = Swift_SmtpTransport::newInstance('smtp.example.com', 25)
+			->setUsername('your_username')
+			->setPassword('your_password');
+
+		$mailer = Swift_Mailer::newInstance($transport);
+
+		$message = Swift_Message::newInstance('Email Verification')
+			->setFrom(['from@example.com' => 'Your Application'])
+			->setTo([$user->email => $user->name])
+			->setBody("Please click the following link to verify your email address: $verificationUrl");
+
+		$result = $mailer->send($message);
+
+		if ($result) {
+			echo "Verification email sent successfully!";
+		} else {
+			echo "Failed to send verification email.";
+		}
 	}
+	
 
 	public function actionVerifyEmail($token) {
         $user = User::findByToken($token);

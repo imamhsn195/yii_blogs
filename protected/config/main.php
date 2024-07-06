@@ -48,6 +48,9 @@ return array(
 			),
 		),
 		
+		'mailer' => [
+			'class' => 'application.extensions.swiftMailer.SwiftMailer',
+		],
 
 		// database settings are configured in database.php
 		'db'=>require(dirname(__FILE__).'/database.php'),
