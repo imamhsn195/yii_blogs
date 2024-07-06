@@ -1,5 +1,4 @@
 <!-- Post content-->
-
 <ul class="list-group">
   <?php foreach($posts as $post) : ?>
   <li class="list-group-item">

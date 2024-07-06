@@ -35,7 +35,14 @@
         <div class="container mt-5">
             <div class="row">
                 <div class="col-lg-8">
-                    <?= $content ?>
+                <?php             
+                    $flashes = Yii::app()->user->getFlashes();
+                    foreach ($flashes as $key => $message) {
+                        echo '<div class="alert alert-' . $key . '">' . $message . '</div>';
+                    }
+                ?> 
+
+                <?= $content ?>
                 </div>
                 <!-- Side widgets-->
                 <div class="col-lg-4">

@@ -31,30 +31,64 @@ class PostsController extends Controller{
         }
         $this->render('/posts/create', array('model' => $model));
       }
+      
       public function actionView($id){
         $this->layout = 'web_main';
-        $post = Post::model()->findByPk($id);
-        if (!$post) {
+        $model = Post::model()->findByPk($id);
+        if (!$model) {
             $this->redirect(array('index'));
         }
-        $this->render('/posts/view', array('post' => $post));
+
+        if ($model->author_id != Yii::app()->user->id) {
+          Yii::app()->user->setFlash('danger', 'You are not authorized to view this post.');
+          $this->redirect(array('index'));
       }
-      public function actionUpdate($id) {
-        $this->layout = 'web_main';
-        $model = Post::model()->findByPk($id);
-        if (isset($_POST['Post'])) {
-          $model->attributes = $_POST['Post'];
-          if ($model->save()) {
+  
+
+        $this->render('/posts/view', array('post' => $model));
+      }
+
+      public function actionUpdate($id)
+      {
+          $this->layout = 'web_main';
+          $model = Post::model()->findByPk($id);
+
+          if (!$model) {
+              $this->redirect(['index']);
+          }
+
+          if ($model->author_id != Yii::app()->user->id) {
+            Yii::app()->user->setFlash('danger', 'You are not authorized to perform this action.');
             $this->redirect(array('index'));
           }
-        }
-        $this->render('/posts/update', array('model' => $model));
+      
+          if (isset($_POST['Post'])) {
+              $model->attributes = $_POST['Post'];
+              if ($model->save()) {
+                  $this->redirect(['index']);
+              }
+          }
+      
+          $this->render('/posts/update', ['model' => $model]);
       }
-    
-      public function actionDelete($id) {
-        $this->layout = 'web_main';
-        $model = Post::model()->findByPk($id);
-        $model->delete();
-        $this->redirect(array('index'));
+      
+      public function actionDelete($id)
+      {
+          $this->layout = 'web_main';
+          $model = Post::model()->findByPk($id);
+
+          if (!$model) {
+              $this->redirect(['index']);
+          }
+      
+          if ($model->author_id != Yii::app()->user->id) {
+            Yii::app()->user->setFlash('danger', 'You are not authorized to perform this action.');
+            $this->redirect(array('index'));
+          }
+      
+          $model->delete();
+          Yii::app()->user->setFlash('success', 'Post deleted successfully.');
+          $this->redirect(array('index'));
       }
+      
 }
