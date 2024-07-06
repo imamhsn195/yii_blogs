@@ -91,6 +91,7 @@ class SiteController extends Controller
 		}
 		$this->render('signup', array('model' => $user));
 	  }
+	  
 	  public function sendVerificationEmail($user) {
 
 		$verificationUrl = $this->createAbsoluteUrl('user/verifyEmail', array('token' => $user->token));
@@ -118,24 +119,10 @@ class SiteController extends Controller
 			echo "Failed to send verification email.";
 		}
 	}
-	
 
-	public function actionVerifyEmail($token) {
-        $user = User::findByToken($token);
-        if ($user !== null) {
-            $user->email_verified = 1;
-            $user->token = null;
-            $user->save(false);
-            Yii::app()->user->setFlash('success', 'Your email has been successfully verified.');
-            $this->redirect(array('/site/login'));
-        } else {
-            Yii::app()->user->setFlash('error', 'Invalid verification token.');
-            $this->redirect(array('/posts/index'));
-        }
-    }
-	/**
-	 * Displays the login page
-	 */
+	//   public function actionUsername() {
+	// 	$username = $_POST['username'];
+	//   }
 	public function actionLogin()
 	{
 		$this->layout = 'web_main';
@@ -154,8 +141,9 @@ class SiteController extends Controller
 			$model->attributes=$_POST['LoginForm'];
 			// validate user input and redirect to the previous page if valid
 			if($model->validate() && $model->login())
-				$this->redirect(Yii::app()->user->returnUrl);
+			$this->redirect(Yii::app()->user->returnUrl);
 		}
+
 		// display the login form
 		$this->render('login',array('model'=>$model));
 	}

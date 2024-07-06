@@ -27,6 +27,8 @@ class LoginForm extends CFormModel
 			array('rememberMe', 'boolean'),
 			// password needs to be authenticated
 			array('password', 'authenticate'),
+
+            array('username', 'verifyEmail'),
 		);
 	}
 
@@ -75,5 +77,14 @@ class LoginForm extends CFormModel
 		}
 		else
 			return false;
+	}
+
+	public function verifyEmail($attribute, $params)
+	{
+		$user = User::model()->findByAttributes(['username' => $this->username]);
+	
+		if ($user !== null && $user->email_verified == 0) {
+			$this->addError($attribute, 'Email not verified. Please verify your email before logging in.');
+		}
 	}
 }
