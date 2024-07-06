@@ -22,6 +22,11 @@ class PostsController extends Controller{
         $this->layout = 'web_main';
         $model = new Post;
     
+        if(!User::model()->findByPk(Yii::app()->user->id)->email_verified){
+          Yii::app()->user->setFlash('danger', 'Your account\'s email id is not verified.');
+          $this->redirect(array('index'));
+        }
+
         if (isset($_POST['Post'])) {
           $model->attributes = $_POST['Post'];
           $model->author_id = Yii::app()->user->id;
@@ -38,7 +43,10 @@ class PostsController extends Controller{
         if (!$model) {
             $this->redirect(array('index'));
         }
-
+        if(!User::model()->findByPk(Yii::app()->user->id)->email_verified){
+          Yii::app()->user->setFlash('danger', 'Your account\'s email id is not verified.');
+          $this->redirect(array('index'));
+        }
         if ($model->author_id != Yii::app()->user->id) {
           Yii::app()->user->setFlash('danger', 'You are not authorized to view this post.');
           $this->redirect(array('index'));
@@ -55,6 +63,11 @@ class PostsController extends Controller{
 
           if (!$model) {
               $this->redirect(['index']);
+          }
+
+          if(!User::model()->findByPk(Yii::app()->user->id)->email_verified){
+            Yii::app()->user->setFlash('danger', 'Your account\'s email id is not verified.');
+            $this->redirect(array('index'));
           }
 
           if ($model->author_id != Yii::app()->user->id) {
@@ -80,7 +93,12 @@ class PostsController extends Controller{
           if (!$model) {
               $this->redirect(['index']);
           }
-      
+          
+          if(!User::model()->findByPk(Yii::app()->user->id)->email_verified){
+            Yii::app()->user->setFlash('danger', 'Your account\'s email id is not verified.');
+            $this->redirect(array('index'));
+          }
+
           if ($model->author_id != Yii::app()->user->id) {
             Yii::app()->user->setFlash('danger', 'You are not authorized to perform this action.');
             $this->redirect(array('index'));
