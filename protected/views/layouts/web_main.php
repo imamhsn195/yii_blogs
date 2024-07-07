@@ -41,7 +41,6 @@
                         echo '<div class="alert alert-' . $key . '">' . $message . '</div>';
                     }
                 ?> 
-
                 <?= $content ?>
                 </div>
                 <!-- Side widgets-->
@@ -50,10 +49,24 @@
                     <div class="card mb-4">
                         <div class="card-header">Search</div>
                         <div class="card-body">
-                            <div class="input-group">
-                                <input class="form-control" type="text" placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search" />
-                                <button class="btn btn-primary" id="button-search" type="button">Go!</button>
+                        <form action="" method="get">
+                            <div class="input-group mb-2">
+                                <select class="form-control" name="author_id">
+                                    <option disabled="disabled" selected value="">Select Author</option>
+                                    <?php foreach(Yii::app()->authorComponent->getAuthors() as $author): ?>
+                                        <option value="<?=$author->id?>" <?= isset($_GET['author_id']) && $_GET['author_id'] == $author->id ? 'selected' : '' ?>><?=$author->username?></option>
+                                    <?php endforeach; ?>
+                                </select>
                             </div>
+                            <div class="input-group mb-2">
+                                <input class="form-control" name="date" type="date" id="date" value="<?= isset($_GET['date']) ? htmlspecialchars($_GET['date']) : '' ?>">
+                            </div>
+                            <div class="input-group mb-2">
+                                <input class="form-control" name="q" type="text" placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search" value="<?= isset($_GET['q']) ? htmlspecialchars($_GET['q']) : '' ?>">
+                            </div>
+                            <button class="btn btn-primary float-end" id="button-search" type="submit">Go!</button>
+                        </form>
+
                         </div>
                     </div>
                     <!-- Categories widget-->
