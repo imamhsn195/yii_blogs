@@ -33,7 +33,17 @@
             <a href="<?php echo Yii::app()->createUrl('/posts/view', array('id' => $post->id)); ?>">Read More</a>
         </p>
         </section>
-        <span class="badge bg-primary text-decoration-none">Liked (<?=$post->likesCount?>)</span>  
+        <!-- <span class="badge bg-primary text-decoration-none">Liked (<?=$post->likesCount?>)</span> -->
+        <?php if (!Yii::app()->user->isGuest): ?>
+            <?php
+            $userLiked = PostLike::model()->exists('post_id=:post_id AND user_id=:user_id', array(':post_id'=>$post->id, ':user_id'=>Yii::app()->user->id));
+            ?>
+            <?php if ($userLiked): ?>
+                <span class="badge bg-primary text-decoration-none">Liked (<?=$post->likesCount?>)</span>
+            <?php else: ?>
+                <?= CHtml::link('Like (' . $post->likesCount. ')', array('/posts/likePost', 'post_id'=>$post->id), array('class'=>'badge bg-primary text-decoration-none')) ?>
+            <?php endif; ?>
+        <?php endif; ?>  
     </article>
   </li>
   <?php endforeach; ?>

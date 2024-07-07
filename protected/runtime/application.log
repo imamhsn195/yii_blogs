@@ -11376,3 +11376,80 @@ Stack trace:
 REQUEST_URI=/yii_blogs/index.php/posts/js/scripts.js
 HTTP_REFERER=http://localhost/yii_blogs/index.php/posts/3
 ---
+2024/07/07 14:45:11 [error] [exception.CHttpException.404] CHttpException: The system is unable to find the requested action "js". in C:\xampp\htdocs\yii_blogs\yii-1.1\framework\web\CController.php:486
+Stack trace:
+#0 C:\xampp\htdocs\yii_blogs\yii-1.1\framework\web\CController.php(270): CController->missingAction('js')
+#1 C:\xampp\htdocs\yii_blogs\yii-1.1\framework\web\CWebApplication.php(282): CController->run('js')
+#2 C:\xampp\htdocs\yii_blogs\yii-1.1\framework\web\CWebApplication.php(141): CWebApplication->runController('posts/js/script...')
+#3 C:\xampp\htdocs\yii_blogs\yii-1.1\framework\base\CApplication.php(185): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\yii_blogs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/yii_blogs/index.php/posts/js/scripts.js
+HTTP_REFERER=http://localhost/yii_blogs/index.php/posts/3
+---
+2024/07/07 14:45:18 [error] [exception.CHttpException.404] CHttpException: The system is unable to find the requested action "js". in C:\xampp\htdocs\yii_blogs\yii-1.1\framework\web\CController.php:486
+Stack trace:
+#0 C:\xampp\htdocs\yii_blogs\yii-1.1\framework\web\CController.php(270): CController->missingAction('js')
+#1 C:\xampp\htdocs\yii_blogs\yii-1.1\framework\web\CWebApplication.php(282): CController->run('js')
+#2 C:\xampp\htdocs\yii_blogs\yii-1.1\framework\web\CWebApplication.php(141): CWebApplication->runController('posts/js/script...')
+#3 C:\xampp\htdocs\yii_blogs\yii-1.1\framework\base\CApplication.php(185): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\yii_blogs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/yii_blogs/index.php/posts/js/scripts.js
+HTTP_REFERER=http://localhost/yii_blogs/index.php/posts/index
+---
+2024/07/07 14:46:59 [error] [exception.CHttpException.404] CHttpException: The system is unable to find the requested action "js". in C:\xampp\htdocs\yii_blogs\yii-1.1\framework\web\CController.php:486
+Stack trace:
+#0 C:\xampp\htdocs\yii_blogs\yii-1.1\framework\web\CController.php(270): CController->missingAction('js')
+#1 C:\xampp\htdocs\yii_blogs\yii-1.1\framework\web\CWebApplication.php(282): CController->run('js')
+#2 C:\xampp\htdocs\yii_blogs\yii-1.1\framework\web\CWebApplication.php(141): CWebApplication->runController('posts/js/script...')
+#3 C:\xampp\htdocs\yii_blogs\yii-1.1\framework\base\CApplication.php(185): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\yii_blogs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/yii_blogs/index.php/posts/js/scripts.js
+HTTP_REFERER=http://localhost/yii_blogs/index.php/posts/index
+---
+2024/07/07 14:47:04 [error] [exception.CHttpException.404] CHttpException: The system is unable to find the requested action "js". in C:\xampp\htdocs\yii_blogs\yii-1.1\framework\web\CController.php:486
+Stack trace:
+#0 C:\xampp\htdocs\yii_blogs\yii-1.1\framework\web\CController.php(270): CController->missingAction('js')
+#1 C:\xampp\htdocs\yii_blogs\yii-1.1\framework\web\CWebApplication.php(282): CController->run('js')
+#2 C:\xampp\htdocs\yii_blogs\yii-1.1\framework\web\CWebApplication.php(141): CWebApplication->runController('posts/js/script...')
+#3 C:\xampp\htdocs\yii_blogs\yii-1.1\framework\base\CApplication.php(185): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\yii_blogs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/yii_blogs/index.php/posts/js/scripts.js
+HTTP_REFERER=http://localhost/yii_blogs/index.php/posts/index
+---
+2024/07/07 14:47:26 [error] [exception.CHttpException.404] CHttpException: The system is unable to find the requested action "js". in C:\xampp\htdocs\yii_blogs\yii-1.1\framework\web\CController.php:486
+Stack trace:
+#0 C:\xampp\htdocs\yii_blogs\yii-1.1\framework\web\CController.php(270): CController->missingAction('js')
+#1 C:\xampp\htdocs\yii_blogs\yii-1.1\framework\web\CWebApplication.php(282): CController->run('js')
+#2 C:\xampp\htdocs\yii_blogs\yii-1.1\framework\web\CWebApplication.php(141): CWebApplication->runController('posts/js/script...')
+#3 C:\xampp\htdocs\yii_blogs\yii-1.1\framework\base\CApplication.php(185): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\yii_blogs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/yii_blogs/index.php/posts/js/scripts.js
+HTTP_REFERER=http://localhost/yii_blogs/index.php/posts/index
+---
+2024/07/07 14:47:29 [error] [exception.CHttpException.404] CHttpException: The system is unable to find the requested action "js". in C:\xampp\htdocs\yii_blogs\yii-1.1\framework\web\CController.php:486
+Stack trace:
+#0 C:\xampp\htdocs\yii_blogs\yii-1.1\framework\web\CController.php(270): CController->missingAction('js')
+#1 C:\xampp\htdocs\yii_blogs\yii-1.1\framework\web\CWebApplication.php(282): CController->run('js')
+#2 C:\xampp\htdocs\yii_blogs\yii-1.1\framework\web\CWebApplication.php(141): CWebApplication->runController('posts/js/script...')
+#3 C:\xampp\htdocs\yii_blogs\yii-1.1\framework\base\CApplication.php(185): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\yii_blogs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/yii_blogs/index.php/posts/js/scripts.js
+HTTP_REFERER=http://localhost/yii_blogs/index.php/posts/index
+---
+2024/07/07 14:47:42 [error] [exception.CHttpException.404] CHttpException: The system is unable to find the requested action "js". in C:\xampp\htdocs\yii_blogs\yii-1.1\framework\web\CController.php:486
+Stack trace:
+#0 C:\xampp\htdocs\yii_blogs\yii-1.1\framework\web\CController.php(270): CController->missingAction('js')
+#1 C:\xampp\htdocs\yii_blogs\yii-1.1\framework\web\CWebApplication.php(282): CController->run('js')
+#2 C:\xampp\htdocs\yii_blogs\yii-1.1\framework\web\CWebApplication.php(141): CWebApplication->runController('posts/js/script...')
+#3 C:\xampp\htdocs\yii_blogs\yii-1.1\framework\base\CApplication.php(185): CWebApplication->processRequest()
+#4 C:\xampp\htdocs\yii_blogs\index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/yii_blogs/index.php/posts/js/scripts.js
+HTTP_REFERER=http://localhost/yii_blogs/index.php/posts/index
+---
