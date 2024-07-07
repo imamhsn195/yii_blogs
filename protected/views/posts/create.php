@@ -17,7 +17,11 @@
                     <?php echo $form->textField($model, 'title', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control mb-3')); ?>
                     <?php echo $form->error($model, 'title'); ?>
                 </div>
-
+                <div class="row">
+                    <?php echo $form->labelEx($model, 'image_url'); ?>
+                    <?php echo $form->textField($model, 'image_url', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control mb-3')); ?>
+                    <?php echo $form->error($model, 'image_url'); ?>
+                </div>
                 <div class="row">
                     <?php echo $form->labelEx($model, 'content'); ?>
                     <?php echo $form->textArea($model, 'content', array('rows' => 6, 'cols' => 50, 'class' => 'form-control mb-3')); ?>

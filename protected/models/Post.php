@@ -4,6 +4,7 @@ class Post extends CActiveRecord {
         return array(
           array('title, content', 'required'),
           array('is_public', 'boolean'),
+          array('image_url', 'safe'), 
         );
       }
     

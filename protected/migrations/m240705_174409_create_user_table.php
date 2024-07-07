@@ -12,8 +12,8 @@ class m240705_174409_create_user_table extends CDbMigration
 			'token' => 'text NULL',
 			'status' => 'boolean default 1',
             'email_verified' => 'boolean default 0',
-            'created_at' => 'datetime NOT NULL',
-            'updated_at' => 'datetime NOT NULL',
+            'created_at' => 'datetime DEFAULT CURRENT_TIMESTAMP',
+            'updated_at' => 'datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
         ));
     }
 

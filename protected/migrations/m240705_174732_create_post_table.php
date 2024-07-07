@@ -10,8 +10,9 @@ class m240705_174732_create_post_table extends CDbMigration
             'content' => 'text NOT NULL',
             'author_id' => 'integer NOT NULL',
             'is_public' => 'boolean default 1',
-            'created_at' => 'datetime NOT NULL',
-            'updated_at' => 'datetime NOT NULL',
+            'image_url' => 'text NULL',
+            'created_at' => 'datetime DEFAULT CURRENT_TIMESTAMP',
+            'updated_at' => 'datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
         ));
     }
 
