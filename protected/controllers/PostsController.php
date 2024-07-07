@@ -2,6 +2,7 @@
 class PostsController extends Controller{
 
       public function actionIndex() {
+        $authors = User::model()->findAll();
         $this->layout = 'web_main';
         $criteria = new CDbCriteria;
 
@@ -20,20 +21,27 @@ class PostsController extends Controller{
 
         if (isset($_GET['q']) && !empty($_GET['q'])) {
 
-            $criteria->addSearchCondition('title', $_GET['q']);
+            $criteria->addSearchCondition('title', $_GET['q'], true, 'OR');
+            $criteria->addSearchCondition('content', $_GET['q'], true, 'OR');
 
         }
 
-        if (isset($_GET['author']) && !empty($_GET['author'])) {
+        if (isset($_GET['date']) && !empty($_GET['date'])) {
+
+          $criteria->addSearchCondition('created_at', $_GET['date'], 'OR');
+
+        }
+
+        if (isset($_GET['author_id']) && !empty($_GET['author_id'])) {
 
             $criteria->addCondition('author_id = :author_id');
-            $criteria->params[':author_id'] = $_GET['author'];
-            
+            $criteria->params[':author_id'] = $_GET['author_id'];
+
         }
 
         $posts = Post::model()->findAll($criteria);
 
-        $this->render('/posts/index', array('posts' => $posts));
+        $this->render('/posts/index', array('posts' => $posts, 'authors' => $authors));
     }
 
       public function actionCreate() {
@@ -61,13 +69,15 @@ class PostsController extends Controller{
         if (!$model) {
             $this->redirect(array('index'));
         }
+        
+        if ($model->author_id != Yii::app()->user->id) {
+          Yii::app()->user->setFlash('danger', 'You are not authorized to view this post.');
+          $this->redirect(array('index'));
+          
         if(!User::model()->findByPk(Yii::app()->user->id)->email_verified){
           Yii::app()->user->setFlash('danger', 'Your account\'s email id is not verified.');
           $this->redirect(array('index'));
         }
-        if ($model->author_id != Yii::app()->user->id) {
-          Yii::app()->user->setFlash('danger', 'You are not authorized to view this post.');
-          $this->redirect(array('index'));
       }
   
 

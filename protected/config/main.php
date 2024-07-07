@@ -36,7 +36,9 @@ return array(
 			'allowAutoLogin'=>true,
 			'loginUrl' => array('user/signin'),
 		),
-
+		'authorComponent' => array(
+            'class' => 'AuthorComponent',
+        ),
 		// uncomment the following to enable URLs in path-format
 		
 		'urlManager'=>array(

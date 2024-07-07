@@ -17,10 +17,10 @@
     </header>
     <!-- Preview image figure-->
     <figure class="mb-4"><img class="img-fluid rounded" src="<?=$post->image_url ?? 'https://dummyimage.com/900x400/ced4da/6c757d.jpg'?>" alt="..." /></figure>
-    <!-- Post content-->
     <section class="mb-5">
-    <?php $post->content ?? "No content found!" ?>
+        <?php $post->content ?? "No content found!" ?>
     </section>
+    <!-- Post content-->
 </article>
 <!-- Comments section-->
 <section class="mb-5">
