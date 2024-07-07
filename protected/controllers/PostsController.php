@@ -70,16 +70,15 @@ class PostsController extends Controller{
             $this->redirect(array('index'));
         }
         
-        if ($model->author_id != Yii::app()->user->id) {
+        if (!$model->is_public == 1 && $model->author_id != Yii::app()->user->id) {
           Yii::app()->user->setFlash('danger', 'You are not authorized to view this post.');
           $this->redirect(array('index'));
-          
+        }
+        
         if(!User::model()->findByPk(Yii::app()->user->id)->email_verified){
           Yii::app()->user->setFlash('danger', 'Your account\'s email id is not verified.');
           $this->redirect(array('index'));
         }
-      }
-  
 
         $this->render('/posts/view', array('post' => $model));
       }

@@ -8,7 +8,13 @@
             <!-- Post title-->
             <h1 class="fw-bolder mb-1"><?=$post->title ?? "Post" ?></h1>
             <!-- Post meta content-->
-            <div class="text-muted fst-italic mb-2">Posted on <?=date_format(new DateTime($post->created_at), 'F j, Y') ?> by <?= $post->author->username ?? "User"?></div>
+            <div class="text-muted fst-italic mb-2">
+                Posted on <?=date_format(new DateTime($post->created_at), 'F j, Y') ?> by <?= $post->author->username ?? "User"?>
+                <?php if(Yii::app()->user->id == $post->author_id) : ?>
+                    <a class="float-end btn btn-link  text-danger" style="text-decoration: none;" href="<?php echo $this->createUrl('posts/delete', array('id' => $post->id)); ?>">Delete</a>
+                    <a class="float-end btn btn-link" style="text-decoration: none;" href="<?php echo $this->createUrl('posts/update', array('id' => $post->id)); ?>">Edit</a>
+                <?php endif; ?>
+            </div>
             <!-- Post categories-->
             <?php if ($post->is_public == 1): ?>
                 <a class="badge bg-primary text-decoration-none" href="#!">Public</a>
