@@ -2,22 +2,40 @@
 class PostsController extends Controller{
 
       public function actionIndex() {
-          $this->layout = 'web_main';
-          $criteria = new CDbCriteria;
-        
-          if (isset($_GET['q'])) {
+        $this->layout = 'web_main';
+        $criteria = new CDbCriteria;
+
+        if (!Yii::app()->user->isGuest) {
+
+            $userId = Yii::app()->user->id;
+            $criteria->addCondition('is_public = 1');
+            $criteria->addCondition('author_id = :userId AND is_public = 1', 'OR');
+            $criteria->params[':userId'] = $userId;
+
+        } else {
+
+            $criteria->addCondition('is_public = 1');
+
+        }
+
+        if (isset($_GET['q']) && !empty($_GET['q'])) {
+
             $criteria->addSearchCondition('title', $_GET['q']);
-          }
-        
-          if (isset($_GET['author'])) {
-            $criteria->addCondition('user_id=:user_id');
-            $criteria->params[':user_id'] = $_GET['author'];
-          }
-        
-          $posts = Post::model()->findAll($criteria);
-          $this->render('/posts/index', array('posts' => $posts));
-      }
-    
+
+        }
+
+        if (isset($_GET['author']) && !empty($_GET['author'])) {
+
+            $criteria->addCondition('author_id = :author_id');
+            $criteria->params[':author_id'] = $_GET['author'];
+            
+        }
+
+        $posts = Post::model()->findAll($criteria);
+
+        $this->render('/posts/index', array('posts' => $posts));
+    }
+
       public function actionCreate() {
         $this->layout = 'web_main';
         $model = new Post;
