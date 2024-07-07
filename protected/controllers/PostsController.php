@@ -38,7 +38,7 @@ class PostsController extends Controller{
             $criteria->params[':author_id'] = $_GET['author_id'];
 
         }
-
+        $criteria->with = array('likesCount');
         $posts = Post::model()->findAll($criteria);
 
         $this->render('/posts/index', array('posts' => $posts, 'authors' => $authors));
@@ -65,7 +65,7 @@ class PostsController extends Controller{
       
       public function actionView($id){
         $this->layout = 'web_main';
-        $model = Post::model()->findByPk($id);
+        $model = Post::model()->with('likesCount', 'author')->findByPk($id);
         if (!$model) {
             $this->redirect(array('index'));
         }
@@ -135,6 +135,40 @@ class PostsController extends Controller{
           $model->delete();
           Yii::app()->user->setFlash('success', 'Post deleted successfully.');
           $this->redirect(array('index'));
+      }
+
+      public function actionLikePost($post_id)
+      {
+        if (Yii::app()->user->isGuest) {
+            Yii::app()->user->setFlash('error', 'Please login to like posts.');
+            $this->redirect(Yii::app()->user->loginUrl);
+        }
+
+        $post = Post::model()->findByPk($post_id);
+
+        if (!$post) {
+            throw new CHttpException(404, 'Post not found.');
+        }
+
+        $userId = Yii::app()->user->id;
+
+        $existingLike = PostLike::model()->find('post_id=:post_id AND user_id=:user_id', array(':post_id'=>$post_id, ':user_id'=>$userId));
+
+        if ($existingLike) {
+            Yii::app()->user->setFlash('error', 'You have already liked this post.');
+        } else {
+            $like = new PostLike;
+            $like->post_id = $post_id;
+            $like->user_id = $userId;
+
+            if ($like->save()) {
+                Yii::app()->user->setFlash('success', 'Post liked successfully.');
+            } else {
+                Yii::app()->user->setFlash('error', 'Failed to like the post.');
+            }
+        }
+
+        $this->redirect(Yii::app()->request->urlReferrer ?: Yii::app()->homeUrl);
       }
       
 }

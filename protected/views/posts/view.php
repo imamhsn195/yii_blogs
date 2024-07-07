@@ -21,9 +21,19 @@
         <?php $post->content ?? "No content found!" ?>
     </section>
     <!-- Post content-->
+    <?php if (!Yii::app()->user->isGuest): ?>
+        <?php
+        $userLiked = PostLike::model()->exists('post_id=:post_id AND user_id=:user_id', array(':post_id'=>$post->id, ':user_id'=>Yii::app()->user->id));
+        ?>
+        <?php if ($userLiked): ?>
+            <span class="btn btn-primary btn-sm">Liked (<?=$post->likesCount?>)</span>
+        <?php else: ?>
+            <?= CHtml::link('Like (' . $post->likesCount. ')', array('/posts/likePost', 'post_id'=>$post->id), array('class'=>'btn btn-sm btn-primary')) ?>
+        <?php endif; ?>
+    <?php endif; ?>
 </article>
 <!-- Comments section-->
-<section class="mb-5">
+<section class="mb-5 mt-2">
     <div class="card bg-light">
         <div class="card-body">
             <!-- Comment form-->
