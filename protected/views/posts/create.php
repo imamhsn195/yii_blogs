@@ -10,20 +10,31 @@
 
                 <p class="note">Fields with <span class="required text-danger">*</span> are required.</p>
 
-                <?php echo $form->errorSummary($model); ?>
+                <?php if ($model->hasErrors()): ?>
+                    <div class="alert alert-danger">
+                        <?php echo $form->errorSummary($model); ?>
+                    </div>
+                <?php endif; ?>
 
                 <div class="row">
-                    <?php echo $form->labelEx($model, 'title'); ?>
+                    <?php 
+                        $label = $form->labelEx($model, 'title');
+                        echo str_replace('*', '<span class="text-danger">*</span>', $label); 
+                    ?>
                     <?php echo $form->textField($model, 'title', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control mb-3')); ?>
                     <?php echo $form->error($model, 'title'); ?>
                 </div>
+
                 <div class="row">
                     <?php echo $form->labelEx($model, 'image_url'); ?>
                     <?php echo $form->textField($model, 'image_url', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control mb-3')); ?>
                     <?php echo $form->error($model, 'image_url'); ?>
                 </div>
                 <div class="row">
-                    <?php echo $form->labelEx($model, 'content'); ?>
+                    <?php 
+                        $label = $form->labelEx($model, 'content');
+                        echo str_replace('*', '<span class="text-danger">*</span>', $label); 
+                    ?>
                     <?php echo $form->textArea($model, 'content', array('rows' => 6, 'cols' => 50, 'class' => 'form-control mb-3')); ?>
                     <?php echo $form->error($model, 'content'); ?>
                 </div>
