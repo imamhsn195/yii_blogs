@@ -52,19 +52,19 @@
                         <form action="" method="get">
                             <div class="input-group mb-2">
                                 <select class="form-control" name="author_id">
-                                    <option disabled="disabled" selected value="">Select Author</option>
+                                    <option selected>All</option>
                                     <?php foreach(Yii::app()->authorComponent->getAuthors() as $author): ?>
                                         <option value="<?=$author->id?>" <?= isset($_GET['author_id']) && $_GET['author_id'] == $author->id ? 'selected' : '' ?>><?=$author->username?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
                             <div class="input-group mb-2">
-                                <input class="form-control" name="date" type="date" id="date" value="<?= isset($_GET['date']) ? htmlspecialchars($_GET['date']) : '' ?>">
+                                <input class="form-control" name="date_search" type="date" id="date" value="<?= isset($_GET['date_search']) ? htmlspecialchars($_GET['date_search']) : '' ?>">
                             </div>
                             <div class="input-group mb-2">
-                                <input class="form-control" name="q" type="text" placeholder="Enter search term..." aria-label="Enter search term..." aria-describedby="button-search" value="<?= isset($_GET['q']) ? htmlspecialchars($_GET['q']) : '' ?>">
+                                <input class="form-control" name="like_search" type="text" placeholder="Enter title or content..." aria-label="Enter title or content..." aria-describedby="button-search" value="<?= isset($_GET['like_search']) ? htmlspecialchars($_GET['like_search']) : '' ?>">
                             </div>
-                            <button class="btn btn-primary float-end" id="button-search" type="submit">Go!</button>
+                            <button class="btn btn-primary float-end" id="button-search" type="submit">Search!</button>
                         </form>
 
                         </div>
@@ -106,6 +106,6 @@
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
+        <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/scripts.js"></script>
     </body>
 </html>
