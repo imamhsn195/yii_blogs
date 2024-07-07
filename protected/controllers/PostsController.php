@@ -2,46 +2,45 @@
 class PostsController extends Controller{
 
       public function actionIndex() {
-        $authors = User::model()->findAll();
         $this->layout = 'web_main';
+        $isGuest = Yii::app()->user->isGuest ?? null;
+        $author_id =  (isset($_GET['author_id']) && !empty($_GET['author_id'])) ? $_GET['author_id'] : null;
+        $like_search = (isset($_GET['like_search']) && !empty($_GET['like_search'])) ? $_GET['like_search'] : null;
+        $date_search = (isset($_GET['date_search']) && !empty($_GET['date_search'])) ? $_GET['date_search'] : null;
+
+        // Log input parameters
+        Yii::log('Input Parameters: ' . CVarDumper::dumpAsString($_GET), CLogger::LEVEL_INFO);
+
         $criteria = new CDbCriteria;
 
-        if (!Yii::app()->user->isGuest) {
-
-            $userId = Yii::app()->user->id;
-            $criteria->addCondition('is_public = 1');
-            $criteria->addCondition('author_id = :userId AND is_public = 1', 'OR');
-            $criteria->params[':userId'] = $userId;
-
-        } else {
-
-            $criteria->addCondition('is_public = 1');
-
+        if($isGuest){
+          $criteria->addCondition('is_public = 1', );
         }
-
-        if (isset($_GET['q']) && !empty($_GET['q'])) {
-
-            $criteria->addSearchCondition('title', $_GET['q'], true, 'OR');
-            $criteria->addSearchCondition('content', $_GET['q'], true, 'OR');
-
+        if($author_id){
+          $criteria->addCondition('author_id = :author_id');
+          $criteria->params[':author_id'] = $author_id;
         }
-
-        if (isset($_GET['date']) && !empty($_GET['date'])) {
-
-          $criteria->addSearchCondition('created_at', $_GET['date'], 'OR');
-
+        if($like_search){
+          $criteria->addSearchCondition('title', $like_search);
+          $criteria->addSearchCondition('content', $like_search);      
         }
-
-        if (isset($_GET['author_id']) && !empty($_GET['author_id'])) {
-
-            $criteria->addCondition('author_id = :author_id');
-            $criteria->params[':author_id'] = $_GET['author_id'];
-
+        if($date_search){
+          $criteria->addCondition('DATE(created_at)  = :date_search');
+          $criteria->params[':date_search'] = $date_search;
         }
         $criteria->with = array('likesCount');
-        $posts = Post::model()->findAll($criteria);
 
-        $this->render('/posts/index', array('posts' => $posts, 'authors' => $authors));
+         // Log criteria parameters and condition
+        Yii::log('Criteria Params: ' . CVarDumper::dumpAsString($criteria->params), CLogger::LEVEL_INFO);
+        Yii::log('Criteria Condition: ' . $criteria->condition, CLogger::LEVEL_INFO);
+
+        try {
+          $authors = User::model()->findAll();
+          $posts = Post::model()->findAll($criteria);
+        } catch (Exception $e) {
+            // Log any errors
+            Yii::log('Error: ' . $e->getMessage(), CLogger::LEVEL_ERROR);
+        }
     }
 
       public function actionCreate() {

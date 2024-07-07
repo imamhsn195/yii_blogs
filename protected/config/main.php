@@ -62,19 +62,18 @@ return array(
 			'errorAction'=>YII_DEBUG ? null : 'site/error',
 		),
 
-		'log'=>array(
-			'class'=>'CLogRouter',
-			'routes'=>array(
+		'log' => array(
+			'class' => 'CLogRouter',
+			'routes' => array(
 				array(
-					'class'=>'CFileLogRoute',
-					'levels'=>'error, warning',
+					'class' => 'CFileLogRoute',
+					'levels' => 'error, warning, info',
+					'logFile' => 'application.log',
 				),
-				// uncomment the following to show log messages on web pages
-				/*
 				array(
-					'class'=>'CWebLogRoute',
+					'class' => 'CWebLogRoute',
+					'levels' => 'error, warning, info', // Adjust log levels as needed
 				),
-				*/
 			),
 		),
 
