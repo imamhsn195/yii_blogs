@@ -16,8 +16,11 @@
                 <?php endif; ?>
         </div>
             <!-- Post categories-->
-            <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
-            <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
+            <?php if ($post->is_public == 1): ?>
+                <a class="badge bg-primary text-decoration-none" href="#!">Public</a>
+            <?php else: ?>
+                <a class="badge bg-secondary text-decoration-none link-light" href="#!">Private</a>
+            <?php endif; ?>
     </header>
     <!-- Preview image figure-->
     <figure class="mb-4"><img class="img-fluid rounded" src="<?=$post->image_url ?? 'https://dummyimage.com/900x400/ced4da/6c757d.jpg'?>" alt="..." /></figure>
