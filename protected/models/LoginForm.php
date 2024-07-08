@@ -12,6 +12,8 @@ class LoginForm extends CFormModel
 	public $rememberMe;
 
 	private $_identity;
+	private $_token;
+	private $_emailVerified = true;
 
 	/**
 	 * Declares the validation rules.
@@ -28,7 +30,7 @@ class LoginForm extends CFormModel
 			// password needs to be authenticated
 			array('password', 'authenticate'),
 
-            array('username', 'verifyEmail'),
+            array('username', 'checkVerifyEmail'),
 		);
 	}
 
@@ -73,18 +75,23 @@ class LoginForm extends CFormModel
 		{
 			$duration=$this->rememberMe ? 3600*24*30 : 0; // 30 days
 			Yii::app()->user->login($this->_identity,$duration);
+			Yii::app()->user->setState('emailVerified', $this->_emailVerified);
+			Yii::app()->user->setState('token', $this->_token);
 			return true;
 		}
 		else
 			return false;
 	}
 
-	public function verifyEmail($attribute, $params)
+	public function checkVerifyEmail($attribute, $params)
 	{
 		$user = User::model()->findByAttributes(['username' => $this->username]);
 	
 		if ($user !== null && $user->email_verified == 0) {
-			$this->addError($attribute, 'Email not verified. Please verify your email before logging in.');
+			$this->_emailVerified = false;
+			$this->_token = $user->token;
+		}else{
+			$this->_token = null;
 		}
 	}
 }
