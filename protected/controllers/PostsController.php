@@ -8,9 +8,6 @@ class PostsController extends Controller{
         $like_search = (isset($_GET['like_search']) && !empty($_GET['like_search'])) ? $_GET['like_search'] : null;
         $date_search = (isset($_GET['date_search']) && !empty($_GET['date_search'])) ? $_GET['date_search'] : null;
 
-        // Log input parameters
-        Yii::log('Input Parameters: ' . CVarDumper::dumpAsString($_GET), CLogger::LEVEL_INFO);
-
         $criteria = new CDbCriteria;
 
         if($isGuest){

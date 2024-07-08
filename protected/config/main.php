@@ -70,10 +70,13 @@ return array(
 					'levels' => 'error, warning, info',
 					'logFile' => 'application.log',
 				),
+                // Comment out or remove the following array to stop browser logs
+                /*
 				array(
 					'class' => 'CWebLogRoute',
 					'levels' => 'error, warning, info', // Adjust log levels as needed
 				),
+                */
 			),
 		),
 
