@@ -13,7 +13,7 @@ class PostsController extends Controller{
         if($isGuest){
           $criteria->addCondition('is_public = 1', );
         }
-        if($author_id){
+        if($author_id && $author_id != 'All'){
           $criteria->addCondition('author_id = :author_id');
           $criteria->params[':author_id'] = $author_id;
         }
