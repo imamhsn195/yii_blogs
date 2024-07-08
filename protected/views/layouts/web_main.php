@@ -35,6 +35,11 @@
         <div class="container mt-5">
             <div class="row">
                 <div class="col-lg-8">
+                    <?php if(isset($this->breadcrumbs)):?>
+                        <?php $this->widget('zii.widgets.CBreadcrumbs', array(
+                            'links'=>$this->breadcrumbs,
+                        )); ?><!-- breadcrumbs -->
+                    <?php endif?>
                     <?php if(!Yii::app()->user->isGuest && Yii::app()->user->getState('emailVerified') == false): ?>
                         <?php if (!Yii::app()->user->getState('emailVerified')): ?>
                             <div class="alert alert-warning alert-dismissible fade show" role="alert">
