@@ -148,14 +148,7 @@ class SiteController extends Controller
 		$this->render('login',array('model'=>$model));
 	}
 
-	/**
-	 * Logs out the current user and redirect to homepage.
-	 */
-	public function actionLogout()
-	{
-		Yii::app()->user->logout();
-		$this->redirect(Yii::app()->homeUrl);
-	}
+
 	public function actionCheckEmail() {
 		$email = $_POST['email'];
 		$exists = User::model()->exists('email=:email', array(':email' => $email));
@@ -186,5 +179,14 @@ class SiteController extends Controller
 			Yii::app()->user->setFlash('danger', 'Invalid verification token.');
 			return $this->redirect(['posts/index']);
 		}
+	}
+
+		/**
+	 * Logs out the current user and redirect to homepage.
+	 */
+	public function actionLogout()
+	{
+		Yii::app()->user->logout();
+		$this->redirect(Yii::app()->homeUrl);
 	}
 }
