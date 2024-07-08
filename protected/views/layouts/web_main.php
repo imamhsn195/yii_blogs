@@ -49,7 +49,7 @@
                     <div class="card mb-4">
                         <div class="card-header">Search</div>
                         <div class="card-body">
-                        <form action="" method="get">
+                        <form action="<?=Yii::app()->createUrl('/posts/index')?>" method="get">
                             <div class="input-group mb-2">
                                 <select class="form-control" name="author_id">
                                     <option selected>All</option>
