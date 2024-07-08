@@ -49,6 +49,8 @@
             <?php else: ?>
                 <?= CHtml::link('Like (' . $post->likesCount. ')', array('/posts/likePost', 'post_id'=>$post->id), array('class'=>'badge bg-primary text-decoration-none')) ?>
             <?php endif; ?>
+            <?php else: ?>
+                <span class="badge bg-primary text-decoration-none">Liked (<?=$post->likesCount?>)</span>
         <?php endif; ?>  
     </article>
   </li>
