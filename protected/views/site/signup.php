@@ -10,30 +10,29 @@
 
                 <p class="note">Fields with <span class="required text-danger">*</span> are required.</p>
 
-                <?php echo $form->errorSummary($model); ?>
-
                 <div class="row">
-                    <?php echo $form->labelEx($model, 'username'); ?>
+                    <?php echo HtmlHelper::requiredLabelEx($model, 'username'); ?>
                     <?php echo $form->textField($model, 'username', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control mb-3')); ?>
-                    <?php echo $form->error($model, 'username'); ?>
+                    <?php echo $form->error($model, 'username', array('id'=>"username-status", 'class' => 'text-danger')); ?>
                 </div>
 
                 <div class="row">
-                    <?php echo $form->labelEx($model, 'email'); ?>
-                    <?php echo $form->textField($model, 'email', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control mb-3')); ?>
-                    <?php echo $form->error($model, 'email'); ?>
+                    <?php echo HtmlHelper::requiredLabelEx($model, 'email'); ?>
+                    <?php echo $form->textField($model, 'email', array('size' => 60, 'maxlength' => 255, 'id' => 'email', 'class' => 'form-control mb-3')); ?>
+                    <?php echo $form->error($model, 'email', array('id'=>"email-status", 'class' => 'text-danger')); ?>
+                    <div id="email-status"></div>
                 </div>
 
                 <div class="row">
-                    <?php echo $form->labelEx($model, 'password'); ?>
-                    <?php echo $form->passwordField($model, 'password', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control mb-3')); ?>
-                    <?php echo $form->error($model, 'password'); ?>
+                    <?php echo HtmlHelper::requiredLabelEx($model, 'password'); ?>
+                    <?php echo $form->passwordField($model, 'password', array('size' => 60, 'maxlength' => 255, 'id' => 'password', 'class' => 'form-control mb-3')); ?>
+                    <?php echo $form->error($model, 'password', array('id'=>"password-status", 'class' => 'text-danger')); ?>
                 </div>
 
                 <div class="row">
-                    <?php echo $form->labelEx($model, 'Confirm Password'); ?>
-                    <?php echo $form->passwordField($model, 'password_repeat', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control mb-3')); ?>
-                    <?php echo $form->error($model, 'password_repeat'); ?>
+                    <?php echo HtmlHelper::requiredLabelEx($model, 'Confirm Password'); ?>
+                    <?php echo $form->passwordField($model, 'password_repeat', array('size' => 60, 'maxlength' => 255, 'id' => 'password_repeat', 'class' => 'form-control mb-3')); ?>
+                    <?php echo $form->error($model, 'password_repeat', array('id'=>"password_repeat-status", 'class' => 'text-danger')); ?>
                 </div>
 
                 <div class="row buttons">
@@ -44,3 +43,34 @@
         </div>
     </li>
 </ul>
+
+<script>
+document.getElementById('email').addEventListener('blur', function() {
+    var email = this.value;
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', "<?=Yii::app()->createUrl('site/checkEmail')?>", true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.onload = function () {
+        if (this.status >= 200 && this.status < 400) {
+            // Success!
+            var response = JSON.parse(this.responseText);
+            var emailStatus = document.getElementById('email-status');
+            emailStatus.innerHTML = response.message;
+
+            if (response.status == 201) {
+                emailStatus.classList.add('text-success');
+                emailStatus.classList.remove('text-danger');
+            } else {
+                emailStatus.classList.remove('text-success');
+                emailStatus.classList.add('text-danger');
+            }
+        } else {
+            console.error('Server error:', this.responseText);
+        }
+    };
+    xhr.onerror = function () {
+        console.error('Connection error');
+    };
+    xhr.send('email=' + encodeURIComponent(email));
+});
+</script>

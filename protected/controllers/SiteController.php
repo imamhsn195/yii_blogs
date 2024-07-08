@@ -156,6 +156,18 @@ class SiteController extends Controller
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);
 	}
+	public function actionCheckEmail() {
+		$email = $_POST['email'];
+		$exists = User::model()->exists('email=:email', array(':email' => $email));
+		$response = [];
+		if ($exists) {
+			$response = ['status' => 200, 'message' => "This email address is already registered."];
+		} else {
+			$response = ['status' => 201, 'message' => "This email address is available."];
+		}
 
+		header('Content-Type: application/json');
 
+		echo CJSON::encode($response);
+	  }
 }
