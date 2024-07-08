@@ -36,7 +36,7 @@
             ?>
         </p>
         <p>
-            <a href="<?php echo Yii::app()->createUrl('/posts/view', array('id' => $post->id)); ?>">Read More</a>
+            <a href="<?php echo Yii::app()->createUrl('/posts/view', array('id' => $post->id)); ?>" style="text-decoration:none">Read More</a>
         </p>
         </section>
         <!-- <span class="badge bg-primary text-decoration-none">Liked (<?=$post->likesCount?>)</span> -->

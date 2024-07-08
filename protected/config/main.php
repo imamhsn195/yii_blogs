@@ -61,6 +61,10 @@ return array(
 			// use 'site/error' action to display errors
 			'errorAction'=>YII_DEBUG ? null : 'site/error',
 		),
+		'session' => array(
+       		'class' => 'CDbHttpSession',
+        	'timeout' => 3600,
+   		),
 
 		'log' => array(
 			'class' => 'CLogRouter',

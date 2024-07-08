@@ -42,9 +42,8 @@
                     <?php endif?>
                     <?php if(!Yii::app()->user->isGuest && Yii::app()->user->getState('emailVerified') == false): ?>
                         <?php if (!Yii::app()->user->getState('emailVerified')): ?>
-                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                Your email is not verified. Please verify your email to unlock full access.
-                                <a href="<?php echo$this->createAbsoluteUrl('site/verifyEmail', array('token' => Yii::app()->user->token))?>" class="btn btn-primary">Verify Email</a>
+                            <div class="alert alert-warning fade show" role="alert">
+                                Your email is not verified. Please click<a href="<?php echo $this->createAbsoluteUrl('site/verifyEmail', array('token' => Yii::app()->user->token))?>" style="text-decoration:none"> here </a>to verify your email to unlock full access.
                             </div>
                         <?php endif; ?>
                     <?php endif; ?>
@@ -124,21 +123,16 @@
 </html>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    var alerts = document.querySelectorAll('.alert');
+    var alerts = document.querySelectorAll('.alert.alert-dismissible');
     alerts.forEach(function(alert) {
-        var countdownElement = alert.querySelector('.countdown');
         var seconds = 5;
-        
         var countdown = setInterval(function() {
             seconds--;
-            if (countdownElement) {
-                countdownElement.textContent = '(' + seconds + ')';
-            }
             if (seconds <= 0) {
                 clearInterval(countdown);
                 alert.classList.remove('show');
                 alert.classList.add('hide');
-                alert.remove(); // Optionally remove the alert from the DOM
+                alert.remove();
             }
         }, 1000);
     });
