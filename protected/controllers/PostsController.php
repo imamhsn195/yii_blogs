@@ -34,6 +34,7 @@ class PostsController extends Controller{
         try {
           $authors = User::model()->findAll();
           $posts = Post::model()->findAll($criteria);
+          $this->render('/posts/index', array('posts' => $posts, 'authors' => $authors));
         } catch (Exception $e) {
             // Log any errors
             Yii::log('Error: ' . $e->getMessage(), CLogger::LEVEL_ERROR);
