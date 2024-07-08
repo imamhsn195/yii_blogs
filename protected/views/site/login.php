@@ -11,19 +11,16 @@
                 ));?>
 
                 <p class="note">Fields with <span class="required text-danger">*</span> are required.</p>
-
-                <?php echo $form->errorSummary($model); ?>
-
                 <div class="row">
-                    <?php echo $form->labelEx($model, 'username'); ?>
+                    <?php echo HtmlHelper::requiredLabelEx($model, 'username'); ?>
                     <?php echo $form->textField($model, 'username', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control mb-3')); ?>
-                    <?php echo $form->error($model, 'username'); ?>
+                    <?php echo $form->error($model, 'username', array('id'=>"username-status", 'class' => 'text-danger')); ?>
                 </div>
 
                 <div class="row">
-                    <?php echo $form->labelEx($model, 'password'); ?>
+                    <?php echo HtmlHelper::requiredLabelEx($model, 'password'); ?>
                     <?php echo $form->passwordField($model, 'password', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control mb-3')); ?>
-                    <?php echo $form->error($model, 'password'); ?>
+                    <?php echo $form->error($model, 'password', array('id'=>"password-status", 'class' => 'text-danger')); ?>
                 </div>
 
                 <div class="row buttons">
