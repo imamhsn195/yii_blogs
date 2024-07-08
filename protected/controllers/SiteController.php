@@ -94,7 +94,7 @@ class SiteController extends Controller
 	  
 	  public function sendVerificationEmail($user) {
 
-		$verificationUrl = $this->createAbsoluteUrl('user/verifyEmail', array('token' => $user->token));
+		$verificationUrl = $this->createAbsoluteUrl('site/verifyEmail', array('token' => $user->token));
 
 		Yii::import('application.extensions.swiftMailer.SwiftMailer');
 
@@ -170,4 +170,21 @@ class SiteController extends Controller
 
 		echo CJSON::encode($response);
 	  }
+
+	public function actionVerifyEmail($token)
+	{
+		$user = User::model()->findByToken($token);
+		if ($user !== null) {
+			$user->email_verified = 1;
+			$user->token = null;
+			$user->save(false);
+			Yii::app()->user->setState('emailVerified', true);
+			Yii::app()->user->setState('token', $user->token);
+			Yii::app()->user->setFlash('success', 'Your email has been successfully verified.');
+			return $this->redirect(['posts/index']);
+		} else {
+			Yii::app()->user->setFlash('danger', 'Invalid verification token.');
+			return $this->redirect(['posts/index']);
+		}
+	}
 }

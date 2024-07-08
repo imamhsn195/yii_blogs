@@ -15,7 +15,7 @@
         <!-- Responsive navbar-->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
-                <a class="navbar-brand" href="#!">Home</a>
+                <a class="navbar-brand" href="<?= Yii::app()->createUrl('/posts/index')?>">Home</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -35,11 +35,19 @@
         <div class="container mt-5">
             <div class="row">
                 <div class="col-lg-8">
+                    <?php if(!Yii::app()->user->isGuest && Yii::app()->user->getState('emailVerified') == false): ?>
+                        <?php if (!Yii::app()->user->getState('emailVerified')): ?>
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                Your email is not verified. Please verify your email to unlock full access.
+                                <a href="<?php echo$this->createAbsoluteUrl('site/verifyEmail', array('token' => Yii::app()->user->token))?>" class="btn btn-primary">Verify Email</a>
+                            </div>
+                        <?php endif; ?>
+                    <?php endif; ?>
                 <?php             
-                    $flashes = Yii::app()->user->getFlashes();
-                    foreach ($flashes as $key => $message) {
-                        echo '<div class="alert alert-' . $key . '">' . $message . '</div>';
-                    }
+                $flashes = Yii::app()->user->getFlashes();
+                foreach ($flashes as $key => $message) {
+                    echo '<div class="alert alert-' . $key . ' alert-dismissible fade show" role="alert">' . $message . '</div>';
+                }
                 ?> 
                 <?= $content ?>
                 </div>
@@ -109,3 +117,25 @@
         <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/scripts.js"></script>
     </body>
 </html>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var alerts = document.querySelectorAll('.alert');
+    alerts.forEach(function(alert) {
+        var countdownElement = alert.querySelector('.countdown');
+        var seconds = 5;
+        
+        var countdown = setInterval(function() {
+            seconds--;
+            if (countdownElement) {
+                countdownElement.textContent = '(' + seconds + ')';
+            }
+            if (seconds <= 0) {
+                clearInterval(countdown);
+                alert.classList.remove('show');
+                alert.classList.add('hide');
+                alert.remove(); // Optionally remove the alert from the DOM
+            }
+        }, 1000);
+    });
+});
+</script>

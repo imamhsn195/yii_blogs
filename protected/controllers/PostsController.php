@@ -1,5 +1,49 @@
 <?php
 class PostsController extends Controller{
+      public function filters()
+      {
+          return array(
+              'accessControl',
+          );
+      }
+
+      public function accessRules()
+      {
+          return array(
+              array('allow',
+                  'actions' => array('index', 'view', 'LikePost'),
+                  'users' => array('@'),
+              ),
+              array('allow',
+                  'actions' => array('create', 'update', 'delete'),
+                  'users' => array('@'),
+                  'expression' => '$user->getState("emailVerified") === true',
+              ),
+              array('deny',
+                  'users' => array('*'),
+                  'deniedCallback' => array($this, 'handleAccessDenied'),
+              ),
+          );
+      }
+      public function checkAccess($user)
+      {
+          if ($user->getState('emailVerified') !== true) {
+              Yii::app()->user->setFlash('warning', 'Your email is not verified. Please verify your email to perform this action.');
+              return false;
+          }
+          return true;
+      }
+      public function handleAccessDenied()
+      {
+          $message = "";
+          if(Yii::app()->user->getState('emailVerified') !== true){
+            $message = "Your email is not verified. Please verify your email to unlock full access";
+          }else{
+            $message = 'Access denied. You are not authorized to perform this action.';
+          }
+          Yii::app()->user->setFlash('danger', $message);
+          $this->redirect(array('posts/index'));
+      }
 
       public function actionIndex() {
         $this->layout = 'web_main';
