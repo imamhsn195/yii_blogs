@@ -8,9 +8,6 @@ class PostsController extends Controller{
         $like_search = (isset($_GET['like_search']) && !empty($_GET['like_search'])) ? $_GET['like_search'] : null;
         $date_search = (isset($_GET['date_search']) && !empty($_GET['date_search'])) ? $_GET['date_search'] : null;
 
-        // Log input parameters
-        Yii::log('Input Parameters: ' . CVarDumper::dumpAsString($_GET), CLogger::LEVEL_INFO);
-
         $criteria = new CDbCriteria;
 
         if($isGuest){
@@ -37,6 +34,7 @@ class PostsController extends Controller{
         try {
           $authors = User::model()->findAll();
           $posts = Post::model()->findAll($criteria);
+          $this->render('/posts/index', array('posts' => $posts, 'authors' => $authors));
         } catch (Exception $e) {
             // Log any errors
             Yii::log('Error: ' . $e->getMessage(), CLogger::LEVEL_ERROR);
