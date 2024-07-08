@@ -11,18 +11,18 @@ class PostsController extends Controller{
       {
           return array(
               array('allow',
-                  'actions' => array('index', 'view', 'LikePost'),
+                  'actions' => array('index', 'view'),
+                  'users' => array('?'),
+              ),
+              array('allow',
+                  'actions' => array('LikePost'),
                   'users' => array('@'),
               ),
               array('allow',
                   'actions' => array('create', 'update', 'delete'),
                   'users' => array('@'),
                   'expression' => '$user->getState("emailVerified") === true',
-              ),
-              array('deny',
-                  'users' => array('*'),
-                  'deniedCallback' => array($this, 'handleAccessDenied'),
-              ),
+            )
           );
       }
       public function checkAccess($user)
@@ -33,21 +33,10 @@ class PostsController extends Controller{
           }
           return true;
       }
-      public function handleAccessDenied()
-      {
-          $message = "";
-          if(Yii::app()->user->getState('emailVerified') !== true){
-            $message = "Your email is not verified. Please verify your email to unlock full access";
-          }else{
-            $message = 'Access denied. You are not authorized to perform this action.';
-          }
-          Yii::app()->user->setFlash('danger', $message);
-          $this->redirect(array('posts/index'));
-      }
 
       public function actionIndex() {
         $this->layout = 'web_main';
-        $isGuest = Yii::app()->user->isGuest ?? null;
+        $isGuest = Yii::app()->user->isGuest;
         $author_id =  (isset($_GET['author_id']) && !empty($_GET['author_id'])) ? $_GET['author_id'] : null;
         $like_search = (isset($_GET['like_search']) && !empty($_GET['like_search'])) ? $_GET['like_search'] : null;
         $date_search = (isset($_GET['date_search']) && !empty($_GET['date_search'])) ? $_GET['date_search'] : null;
@@ -55,7 +44,7 @@ class PostsController extends Controller{
         $criteria = new CDbCriteria;
 
         if($isGuest){
-          $criteria->addCondition('is_public = 1', );
+          $criteria->addCondition('is_public = 1');
         }
         if($author_id && $author_id != 'All'){
           $criteria->addCondition('author_id = :author_id');
