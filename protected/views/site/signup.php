@@ -12,8 +12,9 @@
 
                 <div class="row">
                     <?php echo HtmlHelper::requiredLabelEx($model, 'username'); ?>
-                    <?php echo $form->textField($model, 'username', array('size' => 60, 'maxlength' => 255, 'class' => 'form-control mb-3')); ?>
+                    <?php echo $form->textField($model, 'username', array('size' => 60, 'maxlength' => 255, 'id' => 'username', 'class' => 'form-control mb-3')); ?>
                     <?php echo $form->error($model, 'username', array('id'=>"username-status", 'class' => 'text-danger')); ?>
+                    <div id="username-status"></div>
                 </div>
 
                 <div class="row">
@@ -72,5 +73,34 @@ document.getElementById('email').addEventListener('blur', function() {
         console.error('Connection error');
     };
     xhr.send('email=' + encodeURIComponent(email));
+});
+
+document.getElementById('username').addEventListener('blur', function() {
+    var username = this.value;
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', "<?=Yii::app()->createUrl('site/checkUsername')?>", true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.onload = function () {
+        if (this.status >= 200 && this.status < 400) {
+            // Success!
+            var response = JSON.parse(this.responseText);
+            var usernameStatus = document.getElementById('username-status');
+            usernameStatus.innerHTML = response.message;
+
+            if (response.status == 201) {
+                usernameStatus.classList.add('text-success');
+                usernameStatus.classList.remove('text-danger');
+            } else {
+                usernameStatus.classList.remove('text-success');
+                usernameStatus.classList.add('text-danger');
+            }
+        } else {
+            console.error('Server error:', this.responseText);
+        }
+    };
+    xhr.onerror = function () {
+        console.error('Connection error');
+    };
+    xhr.send('username=' + encodeURIComponent(username));
 });
 </script>
