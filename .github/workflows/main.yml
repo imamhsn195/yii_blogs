@@ -1,0 +1,61 @@
+name: Setup and Run PHP Application
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: your_database_name
+          MYSQL_USER: your_username
+          MYSQL_PASSWORD: your_password
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4' # or the version your project uses
+          extensions: mbstring, pdo, pdo_mysql
+          ini-values: |
+            post_max_size=256M
+            upload_max_filesize=256M
+
+      - name: Install Composer dependencies
+        run: composer install
+
+      - name: Update database configuration
+        run: |
+          sed -i "s/'dbname' => '.*'/'dbname' => 'your_database_name'/g" protected/config/database.php
+          sed -i "s/'username' => '.*'/'username' => 'your_username'/g" protected/config/database.php
+          sed -i "s/'password' => '.*'/'password' => 'your_password'/g" protected/config/database.php
+
+      - name: Wait for MySQL
+        run: sleep 30s # wait for MySQL to initialize
+
+      - name: Run migrations
+        run: |
+          echo "yes" | php protected/yiic migrate up
+
+      - name: Start PHP server
+        run: php -S localhost:8080
