@@ -17,9 +17,9 @@ jobs:
         image: mysql:5.7
         env:
           MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: your_database_name
-          MYSQL_USER: your_username
-          MYSQL_PASSWORD: your_password
+          MYSQL_DATABASE: yii_blogs
+          MYSQL_USER: root
+          MYSQL_PASSWORD: ''
         ports:
           - 3306:3306
         options: >-
@@ -46,9 +46,9 @@ jobs:
 
       - name: Update database configuration
         run: |
-          sed -i "s/'dbname' => '.*'/'dbname' => 'your_database_name'/g" protected/config/database.php
-          sed -i "s/'username' => '.*'/'username' => 'your_username'/g" protected/config/database.php
-          sed -i "s/'password' => '.*'/'password' => 'your_password'/g" protected/config/database.php
+          sed -i "s/'dbname' => '.*'/'dbname' => 'yii_blogs'/g" protected/config/database.php
+          sed -i "s/'username' => '.*'/'username' => 'root'/g" protected/config/database.php
+          sed -i "s/'password' => '.*'/'password' => ''/g" protected/config/database.php
 
       - name: Wait for MySQL
         run: sleep 30s # wait for MySQL to initialize
