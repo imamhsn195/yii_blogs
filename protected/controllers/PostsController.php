@@ -59,6 +59,7 @@ class PostsController extends Controller{
           $criteria->params[':date_search'] = $date_search;
         }
         $criteria->with = array('likesCount');
+        $criteria->order = 'created_at DESC';
 
          // Log criteria parameters and condition
         Yii::log('Criteria Params: ' . CVarDumper::dumpAsString($criteria->params), CLogger::LEVEL_INFO);
