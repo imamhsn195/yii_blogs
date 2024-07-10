@@ -5,6 +5,7 @@ class User extends CActiveRecord {
     public function rules() {
       return array(
         array('username, password, email', 'required'),
+        array('username', 'unique', 'message' => "This username is already registered."),
         array('email', 'email'),
         array('email', 'unique', 'message' => "This email address is already registered."),
         array('password', 'compare'),
