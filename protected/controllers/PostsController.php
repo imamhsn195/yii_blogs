@@ -59,6 +59,7 @@ class PostsController extends Controller{
           $criteria->params[':date_search'] = $date_search;
         }
         $criteria->with = array('likesCount');
+        $criteria->order = 'created_at DESC';
 
          // Log criteria parameters and condition
         Yii::log('Criteria Params: ' . CVarDumper::dumpAsString($criteria->params), CLogger::LEVEL_INFO);
@@ -95,7 +96,19 @@ class PostsController extends Controller{
       
       public function actionView($id){
         $this->layout = 'web_main';
-        $model = Post::model()->with('likesCount', 'author')->findByPk($id);
+        $isGuest = Yii::app()->user->isGuest;
+
+        $criteria = new CDbCriteria;
+
+        if($isGuest){
+          $criteria->addCondition('is_public = 1');
+        }
+
+        $criteria->addCondition('id = :id');  
+        $criteria->params[':id'] = $id;
+        $criteria->with = array(['likesCount', 'author']);
+        $model = Post::model()->find($criteria);
+        
         if (!$model) {
             Yii::app()->user->setFlash('danger', "Post is not found.");
             $this->redirect(array('index'));

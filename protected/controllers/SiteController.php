@@ -161,7 +161,22 @@ class SiteController extends Controller
 		header('Content-Type: application/json');
 
 		echo CJSON::encode($response);
-	  }
+	}
+
+	public function actionCheckUsername() {
+		$username = $_POST['username'];
+		$exists = User::model()->exists('username=:username', array(':username' => $username));
+		$response = [];
+		if ($exists) {
+			$response = ['status' => 200, 'message' => "This username is already registered."];
+		} else {
+			$response = ['status' => 201, 'message' => "This username is available."];
+		}
+
+		header('Content-Type: application/json');
+
+		echo CJSON::encode($response);
+	}
 
 	public function actionVerifyEmail($token)
 	{
